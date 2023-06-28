@@ -18,9 +18,7 @@ exports.createStripeCheckout = functions.https.onCall(async (data, context) => {
       mode: "payment",
       success_url: "http://localhost:5500/success",
       cancel_url: "http://localhost:5500/cancel",
-      shipping_address_collection: {
-        allowed_countries: ["US"],
-      },
+      
       line_items: [
         {
           quantity: 1,
@@ -60,10 +58,10 @@ exports.events = functions.https.onRequest(async (req, res) => {
       return res.sendStatus(400);
     }
 
-    const dataObject = event.data.object;
+    //const dataObject = event.data.object;
 
-    await admin.firestore().collection("orders").doc().set({
-      id: "myifff",
+    await admin.firestore().collection("user").doc().set({
+      available_service_count: 1,
     });
   
     return res.sendStatus(200);

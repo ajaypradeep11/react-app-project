@@ -46,6 +46,31 @@ const Purchase = () => {
         getUsers();
     }, []);
 
+
+    useEffect(() => {
+        const initializeStripe = async () => {
+          const stripe = await loadStripe('pk_test_51NLfCWHaVQ7a8uC8g1BD8h7Jwx2JFEMuIeUFWHNFaJfeaIy01l0r9sDPCBI7eI9w4VxINWwunnmjxdsOoeauVIYE00zhmPolPI');
+    
+          const handleClick = async () => {
+            // Create a checkout session
+            
+
+            createStripeCheckout()
+            .then(response => {
+                const sessionId = response.data.id
+                stripe.redirectToCheckout({ sessionId: sessionId })
+            }) 
+
+          };
+    
+          // Attach click event listener to your checkout button
+          const checkoutButton = document.getElementById('buy-button');
+          checkoutButton.addEventListener('click', handleClick);
+        };
+    
+        initializeStripe();
+      }, []);
+
     return (
         <CContainer>
             <CCard className="mb-3"></CCard>
@@ -67,11 +92,7 @@ const Purchase = () => {
                             </CCol>
                             <CCol sm={2}>
 
-                                <CButton id="buy-button" onClick={() => createStripeCheckout()
-                                        .then(response => {
-                                            const sessionId = response.data.id
-                                            stripe.redirectToCheckout({ sessionId: sessionId })
-                                        }) }>Buy</CButton>
+                                <CButton id="buy-button">Buy</CButton>
                         </CCol>
                     </CRow>
                 </CCardBody>
