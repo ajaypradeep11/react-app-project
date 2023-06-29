@@ -11,8 +11,8 @@ exports.createStripeCheckout = functions.https.onCall(async (data, context) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: "http://localhost:5500/success",
-      cancel_url: "http://localhost:5500/cancel",
+      success_url: "https://reactapp-c3dad.web.app/#/purchase",
+      cancel_url: "https://reactapp-c3dad.web.app/#/purchase",
       
       line_items: [
         {
@@ -44,6 +44,22 @@ exports.events = functions.https.onRequest(async (req, res) => {
         available_service_count: inc,
       });
       return res.status(200).json({ data });
+
+
+
+      // if (event.type === 'charge.succeeded') {
+      //   const charge = event.data.object;
+      //   const lineItems = charge.lines.data;
+        
+      //   const doc = admin.firestore().collection("user").doc("user")
+      //   const data = await doc.get();
+      //   const value = data.data();
+      //   const inc = value.available_service_count + parseInt(lineItems[0].quantity);
+      //   await admin.firestore().collection("user").doc("user").set({
+      //     available_service_count: inc,
+      //   });
+      //   return res.status(200).json({ data });
+      // }
     }
     catch (err) {
       console.error("Error");
